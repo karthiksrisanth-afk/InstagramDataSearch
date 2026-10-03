@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Instagram Data Search</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <img src="/logo.svg" class="logo" alt="Data Search logo">
+        <div>
+          <div class="eyebrow">CONNECTED DATA</div>
+          <h1>Instagram Search</h1>
+        </div>
+      </div>
+      <button id="disconnect" class="ghost hidden">Disconnect</button>
+    </header>
+
+    <section id="connectCard" class="card connect-card">
+      <div class="icon">◎</div>
+      <h2>Connect your Instagram</h2>
+      <p>Sign in through Instagram's official authorization flow. Your password is never entered into this app.</p>
+      <div class="actions">
+        <a class="primary" href="/auth/instagram">Connect Instagram</a>
+        <button id="demo" class="demo">View Sample</button>
+      </div>
+      <small>Only information permitted by Instagram's API is requested.</small>
+    </section>
+
+    <section id="searchArea" class="hidden">
+      <div class="profile card">
+        <img id="avatar" alt="">
+        <div>
+          <strong id="username">—</strong>
+          <span id="name">Connected account</span>
+        </div>
+        <span class="status">Connected</span>
+      </div>
+
+      <div class="searchbox">
+        <span>⌕</span>
+        <input id="search" autocomplete="off"
+               placeholder="Search your Instagram data…">
+        <button id="clear" aria-label="Clear">×</button>
+      </div>
+
+      <div class="hint">Searches captions, media types, and IDs from media available to your connected account.</div>
+
+      <section id="results"></section>
+    </section>
+
+    <footer>
+      <span>Instagram Data Search</span>
+      <span>API-authorized data only</span>
+    </footer>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
