@@ -1,0 +1,55 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "**.zip"
+      - ".github/workflows/android-apk.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Find project ZIP
+        run: |
+          ZIP=$(find . -maxdepth 2 -name "*.zip" | head -1)
+          if [ -z "$ZIP" ]; then
+            echo "No project ZIP found"
+            exit 1
+          fi
+          mkdir extracted
+          unzip -q "$ZIP" -d extracted
+
+      - name: Find Android project
+        run: |
+          PROJECT=$(find extracted -name settings.gradle -o -name settings.gradle.kts | head -1)
+          if [ -z "$PROJECT" ]; then
+            echo "Android project not found"
+            exit 1
+          fi
+          echo "PROJECT_DIR=$(dirname "$PROJECT")" >> "$GITHUB_ENV"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android
+        uses: android-actions/setup-android@v3
+
+      - name: Build APK
+        run: |
+          cd "$PROJECT_DIR"
+          gradle assembleDebug --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: InstagramDataSearch-APK
+          path: "**/build/outputs/apk/debug/*.apk"
